@@ -1,0 +1,173 @@
+Artifactory Access token :
+cmVmdGtuOjAxOjE3ODQ2MTM0OTE6WkpYMzdUVjVvck10ZTVzTWZNUGxYZ0pRSnow
+cmVmdGtuOjAxOjE3ODQ2MTM0OTE6WkpYMzdUVjVvck10ZTVzTWZNUGxYZ0pRSnow
+
+Token GitLab
+1U_2gaYaz7nbnd3rvKQu
+
+cd /d "%ANDROID_HOME%\emulator"
+emulator.exe -avd 5554
+
+
+1.Andriod studio
+2.Appium Server
+3.JDK
+4.Node.js & NPM
+
+Tools Path
+JAVA_HOME
+%JAVA_HOME%\bin
+ANDROID_HOME
+%ANDROID_HOME%\platform-tools
+%ANDROID_HOME%\emulator
+%ANDROID_HOME%\tools
+%ANDROID_HOME%\tools\bin
+NODE_HOME
+%NODE_HOME%
+%NODE_HOME%\node_modules\npm\bin
+echo %NODE_HOME%
+node -v
+npm -v
+
+C:\Users\550017854\AppData\Local\nvm   ---NVM instal
+
+
+C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.3---Intilij 
+C:\Program Files\Android\Android Studio  ---AndroidStudio
+C:\Program Files\Java\jdk-17
+C:\Program Files\nodejs\
+C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2025.1.3\bin
+
+Used for Git operations and GitLab API access from IntelliJ IDEA.
+--------------------------------------------------------------------------------------
+**** 
+Before open the BrowserStack Open
+Go to the folder like framework open the cmd
+and paste the
+.\BrowserStackLocal --key oxtbNhyaMj8BvWfDnwp4 --use-ca-certificate Manual.cert --force-local
+--------------------------------------------------------------------------------------------
+And edit the configuration and change the cucumber java VX 
+
+This is for the BrowserStack:-
+Link:-https://www.browserstack.com/docs/local-testing/releases-and-downloads
+
+-Dbase.path=https://10.177.222.149:443/
+-Drest.url=https://10.177.222.149:9443/
+-DRunnerClass=starter/GooglePixel9ProXL15.java
+-DTestLogs=./logs/GooglePixel9ProXL15
+-DbuildDirectory=target/GooglePixel9ProXL15
+-Dcontext="Google Pixel 9 Pro XL 15.0"
+-Dbstack_URL="https://raghavendra_rax7nT:oxtbNhyaMj8BvWfDnwp4@hub-cloud.browserstack.com/wd/hub"
+-Dbstack_userName="raghavendra_rax7nT"
+-Dbstack_accessKey="oxtbNhyaMj8BvWfDnwp4"
+-DplatformName=Android
+-DautomationName=Flutter
+-DdeviceName="Google Pixel 9 Pro XL"
+-DplatformVersion=15.0
+
+This Is for the Emulator
+-Dbase.path=http://10.177.222.149:8090/
+-Drest.url=http://10.177.222.149:8090/
+-DRunnerClass=starter/GooglePixel8Pro16.java
+-DTestLogs=./logs/GooglePixel8Pro14
+-DbuildDirectory=target/GooglePixel8Pro14
+-Dcontext="Samsung Galaxy S24 Ultra 14.0"
+-DplatformName=Android
+-DautomationName=Flutter
+-DdeviceName="emulator-5554"
+-DplatformVersion=16.0
+
+I phone
+--------------------------------------------------------
+In the EDIT Configurations--We have to update the Main class is--io.cucumber.core.cli.Main  then apply and ok
+
+io.cucumber.core.cli.Main
+
+
+-Dbase.path=https://10.177.222.149:443/
+-Drest.url=https://10.177.222.149:9443/
+-DRunnerClass=starter/IPhone16Pro18.java
+-DTestLogs=./logs/iPhone16Pro18
+-DbuildDirectory=target/iPhone16Pro18
+-Dcontext="iPhone 16 Pro 18.0"
+-Dbstack_URL="https://raghavendra_rax7nT:oxtbNhyaMj8BvWfDnwp4@hub-cloud.browserstack.com/wd/hub"
+-Dbstack_userName="raghavendra_rax7nT"
+-Dbstack_accessKey="oxtbNhyaMj8BvWfDnwp4"
+-DplatformName=iOS
+-DautomationName=Flutter
+-DdeviceName="iPhone 16 Pro"
+-DplatformVersion=18.0
+
+C:\Users\550011567\AppData\Local\Android\Sdk\emulator
+ 
+emulator -list-avds
+ 
+emulator -avd 5554
+
+
+
+-Dbase.path=https://10.177.222.149:443/
+-Drest.url=https://10.177.222.149:9443/
+-DRunnerClass=starter/IPhone16Pro18.java
+-DTestLogs=./logs/iPhone16Pro18
+-DbuildDirectory=target/iPhone16Pro18
+-Dcontext="iPhone 16 Pro 18.0"
+-Dbstack_URL="https://raghavendra_rax7nT:oxtbNhyaMj8BvWfDnwp4@hub-cloud.browserstack.com/wd/hub"
+-Dbstack_userName="raghavendra_rax7nT"
+-Dbstack_accessKey="oxtbNhyaMj8BvWfDnwp4"
+-DplatformName=iOS
+-DautomationName=Flutter
+-DdeviceName="iPhone 16 Pro"
+-DplatformVersion=18.0
+
+
+
+-Dbase.path=https://10.177.222.149:443/
+-Drest.url=https://10.177.222.149:9443/
+-DRunnerClass=starter/SamsungGalaxyS24Ultra14.java
+-DTestLogs=./logs/SamsungGalaxyS24Ultra14
+-DbuildDirectory=target/SamsungGalaxyS24Ultra14
+-Dcontext="Samsung Galaxy S24 Ultra 14.0"
+-Dbstack_URL="https://raghavendra_rax7nT:oxtbNhyaMj8BvWfDnwp4@hub-cloud.browserstack.com/wd/hub"
+-Dbstack_userName="raghavendra_rax7nT"
+-Dbstack_accessKey="oxtbNhyaMj8BvWfDnwp4"
+-DplatformName=Android
+-DautomationName=Flutter
+-DdeviceName="Samsung Galaxy S24 Ultra"
+-DplatformVersion=14.0
+
+
+ 
+----------------------------------------------------------------------------------------
+-Dbase.path=https://10.177.222.124:443/
+-Drest.url=https://10.177.222.124:9443/
+-DRunnerClass=starter/SamsungGalaxyS24Ultra14.java
+-DTestLogs=./logs/SamsungGalaxyS24Ultra14
+-DbuildDirectory=target/SamsungGalaxyS24Ultra14
+-Dcontext="Samsung Galaxy S24 Ultra 14.0"
+-Dbstack_URL="https://raghavendra_rax7nT:oxtbNhyaMj8BvWfDnwp4@hub-cloud.browserstack.com/wd/hub"
+-Dbstack_userName="raghavendra_rax7nT"
+-Dbstack_accessKey="oxtbNhyaMj8BvWfDnwp4"
+-DplatformName=Android
+-DautomationName=Flutter
+-DdeviceName="Samsung Galaxy S24 Ultra"
+-DplatformVersion=14.0
+
+
+
+
+
+  kyma_mobile_widgets:
+    git:
+      url: https://gitlab.apps.ge-healthcare.net/kyma.io/kyma-mobile-widgets.git
+      ref: feature/US120091-timeline-break-impl_semantics
+US0-citius-dev-databreak-clone
+US120642-hisotoric-cache-refactor
+
+---------------------
+
+
+
+
+
+
