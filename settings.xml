@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <servers>
+    <server>
+      <username>${repository_username}</username>
+      <password>${repository_password}</password>
+      <id>kyma.io.release</id>
+    </server>
+    <server>
+      <username>${repository_username}</username>
+      <password>${repository_password}</password>
+      <id>kyma.io.snapshot</id>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+      <repositories>
+        <repository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>kyma.io.release</id>
+          <name>Kyma artifactory release repository</name>
+          <url>https://eu-artifactory.apps.ge-healthcare.net/artifactory/maven-kyma.io</url>
+        </repository>
+        <repository>
+          <id>kyma.io.snapshot</id>
+          <name>Kyma artifactory snapshot repository</name>
+          <url>https://eu-artifactory.apps.ge-healthcare.net/artifactory/maven-kyma.io</url>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>kyma.io.release</id>
+          <name>Kyma artifactory release repository</name>
+          <url>https://eu-artifactory.apps.ge-healthcare.net/artifactory/maven-kyma.io</url>
+        </pluginRepository>
+        <pluginRepository>
+          <id>kyma.io.snapshot</id>
+          <name>Kyma artifactory snapshot repository</name>
+          <url>https://eu-artifactory.apps.ge-healthcare.net/artifactory/maven-kyma.io</url>
+        </pluginRepository>
+      </pluginRepositories>
+      <id>artifactory</id>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>artifactory</activeProfile>
+  </activeProfiles>
+</settings>

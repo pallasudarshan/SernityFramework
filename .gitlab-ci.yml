@@ -1,0 +1,234 @@
+stages:
+  #  - deploy_kyma_apps
+  #  - build_platformBDDMobile
+  - e2e_mobile_bdd_run_archive_reports
+
+variables:
+  RABBIT_MQ: rabbitmq:management
+  KYMA_MOCK_REST: eu-artifactory.apps.ge-healthcare.net/docker-snapshot-kyma.io/kyma-mockdata-rest/kyma-mockdata-rest:8.0-stable
+  KYMA_MOCK_STREAM: eu-artifactory.apps.ge-healthcare.net/docker-snapshot-kyma.io/kyma-mockdata-stream/kyma-mockdata-stream:8.0-stable
+  KYMA_MOBILE_APP_BRANCH: citius-dev
+  ARTIFACTORY_URL: https://eu-artifactory.apps.ge-healthcare.net/artifactory/generic-kyma.io/mobile-referenceapp/latest/
+  CONFIG_PATH: /config/
+  ENV_PATH: \config\git_env.list
+  PLATFORM_BDD_DIR: MOBILE_RUN
+  WORKING_DIR: \bVDeViHv\0\kyma-automation\platformbdd-mobile
+  APP_DIR: \Apps\debug
+  APK_FILEPATH: \android\artifacts\android\flutter-apk
+  IPA_FILEPATH: \ios\artifacts\ios
+  EMAIL_SUBJECT: Gitlab-Kyma Mobile-FunctionalTests-ExecutionReport
+  TEST_SERVER_CONFIG_PATH: /root/BDDCONFIG/
+  TEST_SERVER_PASSCODE: 'Kym@#Build#25'
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - when: never
+
+deploy_KymaMockApps:
+  stage: e2e_mobile_bdd_run_archive_reports
+  variables:
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+  tags:
+    - $RUNNER_TAG
+  artifacts:
+    reports:
+      dotenv: build.env
+  script:
+    - echo $env:TestServerIP
+    - Set-Variable -Name "testServerIP" -Value $env:TestServerIP
+    - echo $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${ENV_PATH}
+    - Add-Content -Path build.env -Value "testMachineIP=$testServerIP"
+    - Set-Variable -Name "Test_MACHINE_CONFIG_PATH" -Value $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}
+    - (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${ENV_PATH}) -replace 'localhost', $testServerIP | Out-File $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${ENV_PATH}
+    - (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'service.host.json') -replace 'localhost', $testServerIP | Out-File $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'service.host.json'
+    - (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt') -replace '\$RABBIT_MQ', $RABBIT_MQ | Out-File $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt'
+    - (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt') -replace '\$KYMA_MOCK_REST', $KYMA_MOCK_REST | Out-File $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt'
+    - (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt') -replace '\$KYMA_MOCK_STREAM', $KYMA_MOCK_STREAM | Out-File $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt'
+    - (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt') -replace '\$ENV_VARS', (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${ENV_PATH}) | Out-File $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt'
+    - (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt') -replace '\$testMachineIP', $testServerIP | Out-File $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt'
+    - (Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt') -replace '\$TEST_SERVER_CONFIG_PATH', $TEST_SERVER_CONFIG_PATH | Out-File $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt'
+    - Get-Content $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile.txt' | Set-Content -Encoding utf8 $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile-utf8.txt'
+    - Set-Location 'C:\Program Files\PuTTY'
+    - echo yes| .\pscp.exe -pw $TEST_SERVER_PASSCODE -r $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH} root@$testServerIP`:`"$TEST_SERVER_CONFIG_PATH`"
+    - echo yes| .\plink.exe -pw $TEST_SERVER_PASSCODE root@$testServerIP -m $CI_BUILDS_DIR\$PLATFORM_BDD_DIR${CONFIG_PATH}'dockercommandsmobile-utf8.txt'
+    - exit 0
+
+
+build_platformBDD_mobile:
+  needs: ["deploy_KymaMockApps"]
+  stage: e2e_mobile_bdd_run_archive_reports
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - $RUNNER_TAG
+  script:
+    - echo $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - mvn clean install -DskipTests -s settings.xml
+    - exit 0
+
+
+download_latest_apps:
+  needs: ["build_platformBDD_mobile"]
+  stage: e2e_mobile_bdd_run_archive_reports
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - $RUNNER_TAG
+  artifacts:
+    reports:
+      dotenv: build.env
+  script:
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR/$APP_DIR
+    - echo "Removing old APPs from the directory"
+    - Remove-Item -Path $CI_BUILDS_DIR/$PLATFORM_BDD_DIR/$APP_DIR\*.apk -Force -ErrorAction SilentlyContinue
+    - Remove-Item -Path $CI_BUILDS_DIR/$PLATFORM_BDD_DIR/$APP_DIR\*.ipa -Force -ErrorAction SilentlyContinue
+#    - echo "$env:repository_username and $env:repository_password"
+    - Set-Variable -Name "serviceAccountUsername" -Value $env:repository_username
+    - Set-Variable -Name "serviceAccountPassword" -Value $env:repository_password
+    - echo "List files and get the latest one"
+    - $pair = "${serviceAccountUsername}:${serviceAccountPassword}"
+    - $encoded = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($pair))
+    - $response = Invoke-WebRequest -Uri $ARTIFACTORY_URL -Headers @{Authorization = "Basic $encoded"}
+#    - echo $response.content
+    - $latestFileString = $response.content -split "`n" | Where-Object { $_ -match "${KYMA_MOBILE_APP_BRANCH}-SNAPSHOT\.(\d+)\.zip" } | Sort-Object { [int]([regex]::Match($_, '(\d+)\.zip').Groups[1].Value) } -Descending | Select-Object -First 1
+    - echo $latestFileString
+    - if ($latestFileString -match 'href="([^"]+\.zip)"') { $latestFileName = $matches[1] } else { $latestFileName = "" }
+    - echo $latestFileName
+    - cd $CI_BUILDS_DIR/$WORKING_DIR
+    - Clear-Content -Path build.env
+    - Add-Content -Path build.env -Value "latestFileName=$latestFileName"
+    - ls -l build.env  # Verify file exists
+    - cat build.env    # Check file content
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR/$APP_DIR
+    - $downloadUrl = "$ARTIFACTORY_URL$latestFileName"
+    - Invoke-WebRequest -Uri $downloadUrl -Headers @{Authorization = "Basic $encoded"} -OutFile $latestFileName
+    - Expand-Archive -Path $latestFileName -DestinationPath .
+    - echo "Extracted files from the archive"
+    - $fileName = $latestFileName -replace '\.zip$', ''
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR/$APP_DIR/$fileName/$APK_FILEPATH
+    - echo "Copying APK to the target directory"
+    - Copy-Item -Path *debug.apk -Destination "$CI_BUILDS_DIR\$PLATFORM_BDD_DIR\$APP_DIR\app-debug.apk" -Force
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR/$APP_DIR/$fileName/$IPA_FILEPATH
+    - echo "Copying IPA to the target directory"
+    - Copy-Item -Path *debug.ipa -Destination "$CI_BUILDS_DIR\$PLATFORM_BDD_DIR\$APP_DIR\app-debug.ipa" -Force
+    - exit 0
+
+
+upload_app_to_browserstack:
+  stage: e2e_mobile_bdd_run_archive_reports
+  variables:
+    GIT_STRATEGY: none
+  needs: ["deploy_KymaMockApps", "build_platformBDD_mobile", "download_latest_apps"]
+  tags:
+    - $RUNNER_TAG
+  script:
+    - echo $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - .\BStack_Android_app_upload.bat
+    - .\BStack_iOS_app_upload.bat
+    - echo "BrowserStack App Upload Completed"
+    - exit 0
+
+#run_platformBDD_mobile_GooglePixel8Pro14:
+#  needs: [ "upload_app_to_browserstack" ]
+#  stage: e2e_bdd_run_archive_reports
+#  variables:
+#    GIT_STRATEGY: none
+#  tags:
+#    - $RUNNER_TAG
+#  script:
+#    - echo $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+#    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+#    - mvn verify '-DRunnerClass=starter/GooglePixel8Pro14.java' '-DTestLogs=./logs/GooglePixel8Pro14' '-DbuildDirectory=target/GooglePixel8Pro14' '-Dcontext=Google Pixel 8 Pro 14.0' '-Dbstack_URL="%BStack_URL%"' '-Dbstack_userName="%BStack_userName%"' '-Dbstack_accessKey="%BStack_accessKey%"' '-DplatformName=Android' '-DautomationName=Flutter' '-DdeviceName=Google Pixel 8 Pro' '-DplatformVersion=14.0'
+#    - exit 0
+
+run_platformBDD_mobile_tests_GooglePixel9ProXL15:
+  stage: e2e_mobile_bdd_run_archive_reports
+  tags:
+    - $RUNNER_TAG
+  variables:
+    GIT_STRATEGY: none
+  needs: ["deploy_KymaMockApps", "build_platformBDD_mobile", "download_latest_apps", "upload_app_to_browserstack"]
+  timeout: 6h
+  script:
+    - echo $env:TestServerIP
+    - Set-Variable -Name "testServerIP" -Value $env:TestServerIP
+    - echo $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - mvn verify '-Dbase.path=https://%testServerIP%:443/' '-Drest.url=https://%testServerIP%:9443/' '-DRunnerClass=starter/GooglePixel9ProXL15.java' '-DTestLogs=./logs/GooglePixel9ProXL15' '-DbuildDirectory=target/GooglePixel9ProXL15' '-Dcontext=Google Pixel 9 Pro XL 15.0' '-Dbstack_URL="%BStack_URL%"' '-Dbstack_userName="%BStack_userName%"' '-Dbstack_accessKey="%BStack_accessKey%"' '-DplatformName=Android' '-DautomationName=Flutter' '-DdeviceName=Google Pixel 9 Pro XL' '-DplatformVersion=15.0' -s settings.xml
+    - Get-Process -Name "*BrowserStackLocal*" -ErrorAction SilentlyContinue
+    - Stop-Process -Name "*BrowserStackLocal*" -Force -ErrorAction SilentlyContinue
+    - exit 0
+
+
+run_platformBDD_mobile_tests_SamsungGalaxyS24Ultra14:
+  stage: e2e_mobile_bdd_run_archive_reports
+  tags:
+    - $RUNNER_TAG
+  variables:
+    GIT_STRATEGY: none
+  needs: ["deploy_KymaMockApps", "build_platformBDD_mobile", "download_latest_apps", "upload_app_to_browserstack", "run_platformBDD_mobile_tests_GooglePixel9ProXL15"]
+  timeout: 6h
+  script:
+    - echo $env:TestServerIP
+    - Set-Variable -Name "testServerIP" -Value $env:TestServerIP
+    - echo $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - mvn verify '-Dbase.path=https://%testServerIP%:443/' '-Drest.url=https://%testServerIP%:9443/' '-DRunnerClass=starter/SamsungGalaxyS24Ultra14.java' '-DTestLogs=./logs/SamsungGalaxyS24Ultra14' '-DbuildDirectory=target/SamsungGalaxyS24Ultra14' '-Dcontext=Samsung Galaxy S24 Ultra 14.0' '-Dbstack_URL="%BStack_URL%"' '-Dbstack_userName="%BStack_userName%"' '-Dbstack_accessKey="%BStack_accessKey%"' '-DplatformName=Android' '-DautomationName=Flutter' '-DdeviceName=Samsung Galaxy S24 Ultra' '-DplatformVersion=14.0' -s settings.xml
+    - Get-Process -Name "*BrowserStackLocal*" -ErrorAction SilentlyContinue
+    - Stop-Process -Name "*BrowserStackLocal*" -Force -ErrorAction SilentlyContinue
+    - exit 0
+
+
+run_platformBDD_mobile_tests_iPhone16Pro18:
+  stage: e2e_mobile_bdd_run_archive_reports
+  tags:
+    - $RUNNER_TAG
+  variables:
+    GIT_STRATEGY: none
+  needs: ["deploy_KymaMockApps", "build_platformBDD_mobile", "download_latest_apps", "upload_app_to_browserstack", "run_platformBDD_mobile_tests_GooglePixel9ProXL15", "run_platformBDD_mobile_tests_SamsungGalaxyS24Ultra14"]
+  timeout: 6h
+  script:
+    - echo $env:TestServerIP
+    - Set-Variable -Name "testServerIP" -Value $env:TestServerIP
+    - echo $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - mvn verify '-Dbase.path=https://%testServerIP%:443/' '-Drest.url=https://%testServerIP%:9443/' '-DRunnerClass=starter/IPhone16Pro18.java' '-DTestLogs=./logs/IPhone16Pro18' '-DbuildDirectory=target/IPhone16Pro18' '-Dcontext=iPhone 16 Pro 18.0' '-Dbstack_URL="%BStack_URL%"' '-Dbstack_userName="%BStack_userName%"' '-Dbstack_accessKey="%BStack_accessKey%"' '-DplatformName=iOS' '-DautomationName=Flutter' '-DdeviceName=iPhone 16 Pro' '-DplatformVersion=18.1' -s settings.xml
+    - Get-Process -Name "*BrowserStackLocal*" -ErrorAction SilentlyContinue
+    - Stop-Process -Name "*BrowserStackLocal*" -Force -ErrorAction SilentlyContinue
+    - exit 0
+
+
+archive_reports_Send_Email:
+  needs: ["deploy_KymaMockApps", "build_platformBDD_mobile", "download_latest_apps",  "upload_app_to_browserstack", "run_platformBDD_mobile_tests_GooglePixel9ProXL15", "run_platformBDD_mobile_tests_SamsungGalaxyS24Ultra14", "run_platformBDD_mobile_tests_iPhone16Pro18"]
+  stage: e2e_mobile_bdd_run_archive_reports
+  tags:
+    - $RUNNER_TAG
+  variables:
+    GIT_STRATEGY: none
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+  artifacts:
+    reports:
+      dotenv: build.env
+    paths:
+      - TEST_RUN_ARTIFACTS/*
+  when: always
+  script:
+    - echo $env:TestServerIP
+    - echo $env:latestFileName
+    - Set-Variable -Name "testServerIP" -Value $env:TestServerIP
+    - Set-Variable -Name "testMachineIP" -Value $RUNNER_TAG
+    - Set-Variable -Name "appVersion" -Value $env:latestFileName
+    - echo "Archiving Test Reports"
+    - xcopy $CI_BUILDS_DIR\$PLATFORM_BDD_DIR\target\site\serenity\serenity-summary.html $CI_BUILDS_DIR\$PLATFORM_BDD_DIR\TEST_RUN_ARTIFACTS\ /Y
+    - xcopy $CI_BUILDS_DIR\$PLATFORM_BDD_DIR\target $CI_BUILDS_DIR\$PLATFORM_BDD_DIR\TEST_RUN_ARTIFACTS\target\ /Y /E /H /C /I
+    - xcopy $CI_BUILDS_DIR\$PLATFORM_BDD_DIR\logs $CI_BUILDS_DIR\$PLATFORM_BDD_DIR\TEST_RUN_ARTIFACTS\logs\ /Y /E /H /C /I
+    - xcopy $CI_BUILDS_DIR\$PLATFORM_BDD_DIR\ImageCompareResults $CI_BUILDS_DIR\$PLATFORM_BDD_DIR\TEST_RUN_ARTIFACTS\ImageCompareResults\ /Y /E /H /C /I
+    - cd $CI_BUILDS_DIR/$PLATFORM_BDD_DIR
+    - python SendEmail.py "${EMAIL_SUBJECT}" "$CI_BUILDS_DIR\$PLATFORM_BDD_DIR\TEST_RUN_ARTIFACTS\serenity-summary.html" "${KYMA_MOCK_REST}" "${KYMA_MOCK_STREAM}" "${testMachineIP}" "${testServerIP}" "${appVersion}"
+    - exit 0

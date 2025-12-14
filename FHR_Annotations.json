@@ -1,0 +1,525 @@
+{
+    "annotationMap": [
+        {
+            "annotationTime": "2025-04-11T09:12:35Z",
+            "annotationID": "Annotation-1",
+            "type": "SAT02",
+            "flyout": false,
+            "fhrParameters": [
+                {
+                    "parameter": "sp02",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "sat02",
+                            "label": "sat02",
+                            "values": {
+                                "text": "test1",
+                                "value": 95,
+                                "uom": "%"
+                            }
+                        },
+                        {
+                            "numeric": "pulseRate",
+                            "label": "pulseRate",
+                            "values": {
+                                "text": null,
+                                "value": 80,
+                                "uom": "beat/min"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:12:35Z",
+            "annotationID": "Annotation-2",
+            "type": "NIBP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "NIBP",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "systolic",
+                            "label": "systolic",
+                            "values": {
+                                "text": null,
+                                "value": 120,
+                                "uom": "mmHg"
+                            }
+                        },
+                        {
+                            "numeric": "diastolic",
+                            "label": "diastolic",
+                            "values": {
+                                "text": null,
+                                "value": 80,
+                                "uom": "mmHg"
+                            }
+                        },
+                        {
+                            "numeric": "mean",
+                            "label": "mean",
+                            "values": {
+                                "text": null,
+                                "value": 50,
+                                "uom": "mmHg"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:13:35Z",
+            "annotationID": "Annotation-3",
+            "type": "TEMP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "Temp",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "temp",
+                            "label": "temp",
+                            "values": {
+                                "text": null,
+                                "value": 37,
+                                "uom": "celcius"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:15:35Z",
+            "annotationID": "Annotation-4",
+            "type": "RESP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "CO2",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "rr",
+                            "label": "rr",
+                            "values": {
+                                "text": null,
+                                "value": 110,
+                                "uom": "mm[Hg]"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:17:35Z",
+            "annotationID": "Annotation-5",
+            "type": "HR",
+            "flyout": false,
+            "fhrParameters": [
+                {
+                    "parameter": "ECG",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "HR",
+                            "label": "HR",
+                            "values": {
+                                "text": null,
+                                "value": 66,
+                                "uom": "/min"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:20:35Z",
+            "annotationID": "Annotation-6",
+            "type": "Custom",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "Custom",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "Custom",
+                            "label": "Custom",
+                            "values": {
+                                "text": "Custom Text",
+                                "value": null,
+                                "uom": null
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:24:35Z",
+            "annotationID": "Annotation-7",
+            "type": "RESP",
+            "flyout": false,
+            "fhrParameters": [
+                {
+                    "parameter": "CO2",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "R",
+                            "label": "R",
+                            "values": {
+                                "text": null,
+                                "value": 22,
+                                "uom": null
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:29:35Z",
+            "annotationID": "Annotation-8",
+            "type": "HR",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "ECG",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "Bp",
+                            "label": "Bp",
+                            "values": {
+                                "text": null,
+                                "value": 92,
+                                "uom": null
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:35:35Z",
+            "annotationID": "Annotation-1",
+            "type": "SAT02",
+            "flyout": false,
+            "fhrParameters": [
+                {
+                    "parameter": "sp02",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "sat02",
+                            "label": "sat02",
+                            "values": {
+                                "text": "test1",
+                                "value": 95,
+                                "uom": "%"
+                            }
+                        },
+                        {
+                            "numeric": "pulseRate",
+                            "label": "pulseRate",
+                            "values": {
+                                "text": "cardio",
+                                "value": 80,
+                                "uom": "beat/min"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:42:35Z",
+            "annotationID": "Annotation-2",
+            "type": "NIBP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "NIBP",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "systolic",
+                            "label": "systolic",
+                            "values": {
+                                "text": null,
+                                "value": 120,
+                                "uom": "mmHg"
+                            }
+                        },
+                        {
+                            "numeric": "diastolic",
+                            "label": "diastolic",
+                            "values": {
+                                "text": null,
+                                "value": 80,
+                                "uom": "mmHg"
+                            }
+                        },
+                        {
+                            "numeric": "mean",
+                            "label": "mean",
+                            "values": {
+                                "text": null,
+                                "value": 50,
+                                "uom": "mmHg"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:42:35Z",
+            "annotationID": "Annotation-3",
+            "type": "TEMP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "Temp",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "temp",
+                            "label": "temp",
+                            "values": {
+                                "text": null,
+                                "value": 37,
+                                "uom": "celcius"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:42:35Z",
+            "annotationID": "Annotation-4",
+            "type": "RESP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "CO2",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "rr",
+                            "label": "rr",
+                            "values": {
+                                "text": null,
+                                "value": 110,
+                                "uom": "mm[Hg]"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:43:35Z",
+            "annotationID": "Annotation-5",
+            "type": "HR",
+            "flyout": false,
+            "fhrParameters": [
+                {
+                    "parameter": "ECG",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "HR",
+                            "label": "HR",
+                            "values": {
+                                "text": null,
+                                "value": 66,
+                                "uom": "/min"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:45:35Z",
+            "annotationID": "Annotation-6",
+            "type": "Custom",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "Custom",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "Custom",
+                            "label": "Custom",
+                            "values": {
+                                "text": "Custom Text",
+                                "value": null,
+                                "uom": null
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:47:35Z",
+            "annotationID": "Annotation-7",
+            "type": "RESP",
+            "flyout": false,
+            "fhrParameters": [
+                {
+                    "parameter": "CO2",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "R",
+                            "label": "R",
+                            "values": {
+                                "text": null,
+                                "value": 22,
+                                "uom": null
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:50:35Z",
+            "annotationID": "Annotation-8",
+            "type": "HR",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "ECG",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "Bp",
+                            "label": "Bp",
+                            "values": {
+                                "text": null,
+                                "value": 92,
+                                "uom": null
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:54:35Z",
+            "annotationID": "Annotation-1",
+            "type": "SAT02",
+            "flyout": false,
+            "fhrParameters": [
+                {
+                    "parameter": "sp02",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "sat02",
+                            "label": "sat02",
+                            "values": {
+                                "text": "test1",
+                                "value": 95,
+                                "uom": "%"
+                            }
+                        },
+                        {
+                            "numeric": "pulseRate",
+                            "label": "pulseRate",
+                            "values": {
+                                "text": null,
+                                "value": 80,
+                                "uom": "beat/min"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T09:59:35Z",
+            "annotationID": "Annotation-2",
+            "type": "NIBP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "NIBP",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "systolic",
+                            "label": "systolic",
+                            "values": {
+                                "text": null,
+                                "value": 120,
+                                "uom": "mmHg"
+                            }
+                        },
+                        {
+                            "numeric": "diastolic",
+                            "label": "diastolic",
+                            "values": {
+                                "text": null,
+                                "value": 80,
+                                "uom": "mmHg"
+                            }
+                        },
+                        {
+                            "numeric": "mean",
+                            "label": "mean",
+                            "values": {
+                                "text": null,
+                                "value": 50,
+                                "uom": "mmHg"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T10:05:35Z",
+            "annotationID": "Annotation-3",
+            "type": "TEMP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "Temp",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "temp",
+                            "label": "temp",
+                            "values": {
+                                "text": null,
+                                "value": 37,
+                                "uom": "celcius"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "annotationTime": "2025-04-11T10:12:35Z",
+            "annotationID": "Annotation-4",
+            "type": "RESP",
+            "flyout": true,
+            "fhrParameters": [
+                {
+                    "parameter": "CO2",
+                    "fhrNumerics": [
+                        {
+                            "numeric": "rr",
+                            "label": "rr",
+                            "values": {
+                                "text": null,
+                                "value": 110,
+                                "uom": "mm[Hg]"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,348 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ge.hc.kyma</groupId>
+	<artifactId>kyma-bdd</artifactId>
+	<version>8.0.0</version>
+	<packaging>jar</packaging>
+
+	<properties>
+<!--		<RunnerClass>${RunnerClass}</RunnerClass>-->
+<!--		<buildDirectory>target/${project.basedir}</buildDirectory>-->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<java.version>17</java.version>
+		<selenium.webdriver.version>4.12.0</selenium.webdriver.version>
+		<serenity.version>4.0.1</serenity.version>
+		<serenity.maven.version>4.0.1</serenity.maven.version>
+		<serenity.singlepagereporter.version>4.0.1</serenity.singlepagereporter.version>
+		<serenity.cucumber.version>4.0.1</serenity.cucumber.version>
+		<serinity.navigator.version>4.0.1</serinity.navigator.version>
+		<slf4j.version>1.7.32</slf4j.version>
+		<logback.classic.version>1.2.5</logback.classic.version>
+		<spring.boot.starter.version>3.3.5</spring.boot.starter.version>
+		<eclipse.swt.version>4.3</eclipse.swt.version>
+		<json.simple.version>1.1.1</json.simple.version>
+		<opencv.version>4.9.0-0</opencv.version>
+		<ashot.version>1.5.4</ashot.version>
+
+		<kyma.bdd.api>8.0.0-8.0-stable-SNAPSHOT</kyma.bdd.api>
+		<kyma.api>8.0.0-8.0-stable-SNAPSHOT</kyma.api>
+
+		<Host_Name>${env.COMPUTERNAME}</Host_Name>
+		<User_Name>${env.USERNAME}</User_Name>
+
+		<webdriver.driver>chrome</webdriver.driver>
+
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-devtools-v116</artifactId>
+			<version>4.12.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-core</artifactId>
+			<version>${serenity.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-cucumber</artifactId>
+			<version>${serenity.cucumber.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>serenity-core</artifactId>
+					<groupId>net.serenity-bdd</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.apache.httpcomponents</groupId>-->
+<!--			<artifactId>httpclient</artifactId>-->
+<!--			<version>4.3.4</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.classic.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring.boot.starter.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ge.hc.kyma</groupId>
+			<artifactId>kyma-bdd-api</artifactId>
+			<version>${kyma.bdd.api}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ge.hc.kyma</groupId>
+			<artifactId>kyma-api</artifactId>
+			<version>${kyma.api}</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.eclipse.swt.org.eclipse.swt.win32.win32.x86_64.4.3.swt</groupId>-->
+<!--			<artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>-->
+<!--			<version>${eclipse.swt.version}</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>${json.simple.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openpnp</groupId>
+			<artifactId>opencv</artifactId>
+			<version>${opencv.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ru.yandex.qatools.ashot</groupId>
+			<artifactId>ashot</artifactId>
+			<version>${ashot.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>selenium-remote-driver</artifactId>
+					<groupId>org.seleniumhq.selenium</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-single-page-report</artifactId>
+			<version>${serenity.singlepagereporter.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+		<dependency>
+		    <groupId>io.github.bonigarcia</groupId>
+		    <artifactId>webdrivermanager</artifactId>
+		    <version>4.4.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20210307</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.lightbody.bmp/browsermob-core -->
+		<dependency>
+			<groupId>net.lightbody.bmp</groupId>
+			<artifactId>browsermob-core</artifactId>
+			<version>2.1.5</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jackson-annotations</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.lightbody.bmp/browsermob-proxy -->
+		<dependency>
+			<groupId>net.lightbody.bmp</groupId>
+			<artifactId>browsermob-proxy</artifactId>
+			<version>2.1.5</version>
+			<type>pom</type>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.littleshoot/littleproxy -->
+		<dependency>
+			<groupId>org.littleshoot</groupId>
+			<artifactId>littleproxy</artifactId>
+			<version>1.1.2</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>5.18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.ashwithpoojary98</groupId>
+			<artifactId>appium_flutterfinder_java</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+		<dependency>
+		        <groupId>com.browserstack</groupId>
+		        <artifactId>browserstack-local-java</artifactId>
+		        <version>1.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.5v1988</groupId>
+			<artifactId>appium-flutter-client</artifactId>
+			<version>1.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.saikrishna321</groupId>
+			<artifactId>flutter</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.5v1988</groupId>
+			<artifactId>appium-flutter-client</artifactId>
+			<version>1.0.5</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<directory>${buildDirectory}</directory>
+		<defaultGoal>validate</defaultGoal>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<systemProperties>
+						<java.library.path>${project.basedir}/lib/opencv/native/${os.arch}</java.library.path>
+					</systemProperties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.0.0-M5</version>
+
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<includes>
+						<!-- this will allow us run tests from package during test running -->
+						<include>${RunnerClass}</include>
+					</includes>
+					<!-- <systemProperties>
+						you can pass as parameter webdriver type via Jenkins or TeamCity
+						<webdriver.driver>${webdriver.driver}</webdriver.driver>
+					</systemProperties> -->
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<testSource>${java.version}</testSource>
+					<testTarget>${java.version}</testTarget>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+<!--					<fork>true</fork>-->
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.serenity-bdd.maven.plugins</groupId>
+				<artifactId>serenity-maven-plugin</artifactId>
+				<version>${serenity.maven.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>net.serenity-bdd</groupId>
+						<artifactId>serenity-core</artifactId>
+						<version>${serenity.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>net.serenity-bdd</groupId>
+						<artifactId>serenity-single-page-report</artifactId>
+						<version>${serenity.singlepagereporter.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>net.serenity-bdd</groupId>
+						<artifactId>serenity-navigator-report</artifactId>
+						<version>${serinity.navigator.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<reports>single-page-html,navigator</reports>
+				</configuration>
+				<executions>
+					<execution>
+						<id>serenity-reports</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-jar-plugin</artifactId>-->
+<!--				<version>2.5</version>-->
+<!--			</plugin>-->
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>kyma.io</id>
+			<name>Kyma.io artifactory repository</name>
+			<url>https://eu-artifactory.apps.ge-healthcare.net/artifactory/maven-kyma.io/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>plugin.kyma.io</id>
+			<name>Kyma.io artifactory plugin repository</name>
+			<url>https://eu-artifactory.apps.ge-healthcare.net/artifactory/maven-kyma.io/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<distributionManagement>
+		<repository>
+			<id>kyma.io.release</id>
+			<name>Kyma artifactory release repository</name>
+			<url>https://eu-artifactory.apps.ge-healthcare.net/artifactory/maven-release-kyma.io</url>
+		</repository>
+		<snapshotRepository>
+			<id>kyma.io.snapshot</id>
+			<name>Kyma artifactory snapshot repository</name>
+			<url>https://eu-artifactory.apps.ge-healthcare.net/artifactory/maven-snapshot-kyma.io</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+</project>
